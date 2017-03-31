@@ -109,6 +109,23 @@ void moyenne(Mat source)
 
 }
 
+
+Mat ImgToGris(Mat source)
+{
+    Mat dest(source.rows , source.cols , CV_8UC1 ,Scalar(0));
+    Vec3b pixel ;
+    for(int i=0 ; i<source.rows ; i++)
+    {
+        for(int j=0 ; j<source.cols ; j++)
+        {
+            pixel = source.at<Vec3b>(i,j);
+            dest.at<uchar>(i,j) =(uchar) (pixel.val[0] + pixel.val[1] + pixel.val[2]) / 3 ;
+        }
+    }
+
+    return dest ;
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -133,7 +150,8 @@ MainWindow::MainWindow(QWidget *parent) :
         dessineHistograme(Hist,source);
 
 
-
+        // Afficher la'image  en Gris
+        imshow("Image en Gris " , ImgToGris(source));
 
 
     }
