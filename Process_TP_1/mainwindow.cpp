@@ -51,6 +51,7 @@ void dessineHistograme(vector<Mat> histogramme , Mat source) {
     calcHist(&histogramme[1], 1, 0, Mat(), histoVert, 1, &histTaille, &histRange, true, false);
     calcHist(&histogramme[2], 1, 0, Mat(), histoRouge, 1, &histTaille, &histRange, true, false);
 
+
     //Compare Hito
     //compare2Histo(histoBleu, histoRouge);
 
@@ -78,6 +79,36 @@ void dessineHistograme(vector<Mat> histogramme , Mat source) {
 }
 
 
+void moyenne(Mat source)
+{
+    int Somme[3] = { 0 , 0 , 0} ;
+    int k;
+    Vec3b pixel ;
+    for(int i=0 ; i<source.rows ; i++)
+    {
+        for(int j=0 ; j<source.cols ; j++)
+        {
+            pixel = source.at<Vec3b>(i,j);
+            k = 0 ;
+            while(k<3)
+            {
+             Somme[k] += pixel.val[k];
+             k++;
+            }
+
+        }
+    }
+
+    int Dimension = source.cols * source.rows;
+
+    cout << " ___________ Affichage des moyennes ____________" << endl ;
+    cout << "Moyenne du bleu "   << Somme[0]/Dimension  << endl ;
+    cout << "Moyenne du rouge "  << Somme[1]/Dimension  << endl ;
+    cout << "Moyenne du vert "   << Somme[2]/Dimension  << endl ;
+
+
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -92,9 +123,16 @@ MainWindow::MainWindow(QWidget *parent) :
         cout << " Nombre de colonne :" << source.cols << endl ;
         cout << " Nombre de ligne :" << source.rows <<endl;
 
+        // Calcul de la moyenne de chaque couleur
+        moyenne(source);
+
         // Récuperer les Histo de chaque couleur
         vector<Mat> Hist = calculeHistograme(source);
-       dessineHistograme(Hist,source);
+
+        // Dessiner les Histo de chaque couleurs
+        dessineHistograme(Hist,source);
+
+
 
 
 
