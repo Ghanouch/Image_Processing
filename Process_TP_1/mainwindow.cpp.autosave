@@ -158,6 +158,7 @@ MainWindow::MainWindow(QWidget *parent) :
         cvtColor(source,dest, CV_RGB2GRAY);
         imshow("Image en Gris " , dest);
 
+        
 
 
     }
